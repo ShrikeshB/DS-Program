@@ -92,6 +92,7 @@ struct Node *deleteFromFront(struct Node *head)
     if (head == NULL)
     {
         printf("list is empty");
+        return;
     }
 
     printf("%d deleted!\n", head->data);
