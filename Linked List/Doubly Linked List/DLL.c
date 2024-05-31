@@ -87,17 +87,18 @@ struct Node *insertAtPos(struct Node *head, int data, int pos)
     return head;
 }
 
-struct Node *deleteFromFront(struct Node *head)
-{
-    if (head == NULL)
-    {
-        printf("list is empty");
-        return;
+struct Node *deleteFromFront(struct Node *head) {
+    if (head == NULL) {
+        printf("List is empty\n");
+        return head; 
     }
 
     printf("%d deleted!\n", head->data);
-    struct node* tmp = head;
+    struct Node* tmp = head;
     head = head->right;
+    if (head != NULL) {
+        head->left = NULL; 
+    }
     free(tmp);
     return head;
 }
@@ -130,43 +131,42 @@ struct Node *deleteFromRear(struct Node *head)
 }
 
 //! delete from position
-struct Node *deleteAtPos(struct Node *head, int pos)
-{
-    if (head == NULL)
-    {
-        printf("list is empty\n");
+struct Node *deleteAtPos(struct Node *head, int pos) {
+    if (head == NULL) {
+        printf("List is empty\n");
         return head;
     }
-    if (pos <= 1)
-    {
+
+    if (pos <= 1) {
         struct Node *toDelete = head;
         head = head->right;
-        if (head != NULL)
-        {
+        if (head != NULL) {
             head->left = NULL;
         }
         printf("%d deleted!\n", toDelete->data);
         free(toDelete);
         return head;
     }
-    struct Node *tmp = head;
-    for (int i = 1; i < pos - 1 && tmp != NULL; i++)
-        tmp = tmp->right;
 
-    if (tmp == NULL)
-    {
-        printf("no such position!\n");
+    struct Node *tmp = head;
+    for (int i = 1; i < pos - 1 && tmp->right != NULL; i++) {
+        tmp = tmp->right;
+    }
+
+    if (tmp->right == NULL) {
+        printf("No such position!\n");
         return head;
     }
-    printf("%d deleted!\n", tmp->right->data);
 
-    if (tmp->right == NULL)
-    {
-        tmp->right->right->left = tmp;
+    struct Node *toDelete = tmp->right;
+    tmp->right = toDelete->right;
+    if (toDelete->right != NULL) {
+        toDelete->right->left = tmp;
     }
-    struct Node* tmp2 =  tmp->right;
-    tmp->right = tmp->right->right;
-    free(tmp2);
+
+    printf("%d deleted!\n", toDelete->data);
+    free(toDelete);
+
     return head;
 }
 
