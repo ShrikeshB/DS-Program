@@ -95,7 +95,9 @@ struct Node *deleteFromFront(struct Node *head)
     }
 
     printf("%d deleted!\n", head->data);
+    struct node* tmp = head;
     head = head->right;
+    free(tmp);
     return head;
 }
 
